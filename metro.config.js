@@ -1,4 +1,5 @@
 const { getDefaultConfig } = require('expo/metro-config');
+const exclusionList = require("metro-config/src/defaults/exclusionList");
 
 const config = getDefaultConfig(__dirname);
 
@@ -12,10 +13,10 @@ config.resolver.sourceExts.push('web.js', 'web.jsx', 'web.ts', 'web.tsx');
 config.resolver.resolverMainFields = ['react-native', 'browser', 'main'];
 
 // Exclude react-native-maps from web bundle
-config.resolver.blockList = [
-  ...config.resolver.blockList || [],
-  /react-native-maps\/.*\.js$/,
-];
+config.resolver.blockList = exclusionList([
+      // regex di sini jika ingin blacklist folder/file
+      /node_modules\/.*\/node_modules\/react-native\/.*/,
+    ])
 
 // Platform-specific alias
 config.resolver.alias = {

@@ -32,12 +32,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const handlePlanTrip = async () => {
     if (!origin || !destination) {
-      Alert.alert('Missing Information', 'Please enter both origin and destination');
+      // Alert.alert('Missing Information', 'Please enter both origin and destination');
       return;
     }
 
     if (!isConnected) {
-      Alert.alert('Connection Error', 'Not connected to server. Please check your connection.');
+      // Alert.alert('Connection Error', 'Not connected to server. Please check your connection.');
       return;
     }
 
@@ -64,14 +64,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       }, 2000);
     } catch (err) {
       setIsLoading(false);
-      Alert.alert('Error', 'Failed to plan trip. Please try again.');
+      // Alert.alert('Error', 'Failed to plan trip. Please try again.');
     }
   };
+
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>⚡ EV Charging Scheduler</Text>
+        <Text style={styles.title}>EV Charging Scheduler</Text>
         <Text style={styles.subtitle}>Plan your electric vehicle journey</Text>
         
         <View style={styles.connectionStatus}>
@@ -79,17 +80,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             styles.connectionIndicator, 
             { backgroundColor: isConnected ? '#4CAF50' : '#F44336' }
           ]} />
-          <Text style={styles.connectionText}>
+          {/* <Text style={styles.connectionText}>
             {isConnected ? 'Connected' : 'Disconnected'}
-          </Text>
+          </Text> */}
         </View>
       </View>
 
-      {error && (
+      {/* {error && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>⚠️ {error}</Text>
         </View>
-      )}
+      )} */}
 
       <View style={styles.inputSection}>
         <LocationInput
@@ -111,8 +112,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             styles.planButton,
             (!origin || !destination || !isConnected || isLoading) && styles.planButtonDisabled
           ]}
-          onPress={handlePlanTrip}
-          disabled={!origin || !destination || !isConnected || isLoading}
+          onPress={()=>{
+            navigation.navigate('Route', {
+            routeResponse,
+            origin,
+            destination,
+          })
+          }}
+          // disabled={!origin || !destination || !isConnected || isLoading}
         >
           {isLoading ? (
             <ActivityIndicator size="small" color="#fff" />
@@ -126,7 +133,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <VehicleStatusCard status={vehicleStatus} />
       )}
 
-      <View style={styles.infoSection}>
+      {/* <View style={styles.infoSection}>
         <Text style={styles.infoTitle}>How it works:</Text>
         <Text style={styles.infoText}>
           1. Enter your starting location and destination{'\n'}
@@ -134,7 +141,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           3. Follow the route with automatic charging stops{'\n'}
           4. Monitor your vehicle status in real-time
         </Text>
-      </View>
+      </View> */}
     </ScrollView>
   );
 };

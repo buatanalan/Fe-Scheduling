@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
+import { MapView, Marker, Polyline } from '../components/MapView';
 import { ChargingScheduleList } from '../components/ChargingScheduleList';
 import { VehicleStatusCard } from '../components/VehicleStatusCard';
 import { useWebSocket } from '../context/WebSocketContext';
@@ -141,14 +141,10 @@ const RouteScreen: React.FC<RouteScreenProps> = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {activeTab === 'map' ? (
-        <View style={styles.mapContainer}>
+      {activeTab === 'map' ? (        <View style={styles.mapContainer}>
           <MapView
-            provider={PROVIDER_GOOGLE}
             style={styles.map}
-            initialRegion={getMapRegion()}
-            showsUserLocation={false}
-            showsMyLocationButton={false}
+            region={getMapRegion()}
           >
             {/* Route polyline */}
             <Polyline
